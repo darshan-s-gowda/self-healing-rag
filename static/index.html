@@ -1,10 +1,18 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
+
   <title>Self-Healing RAG</title>
+
   <style>
+
     :root {
       --ink: #1f2933;
       --muted: #667085;
@@ -16,117 +24,769 @@
       --success: #176b45;
       --danger: #a33a2b;
     }
-    * { box-sizing: border-box; }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       color: var(--ink);
       background: var(--paper);
-      font-family: Georgia, "Times New Roman", serif;
+      font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
       line-height: 1.55;
     }
-    .page { width: min(920px, calc(100% - 40px)); margin: 56px auto 80px; }
-    header { border-bottom: 1px solid var(--line); padding-bottom: 24px; margin-bottom: 32px; }
-    .eyebrow { font: 600 12px/1.2 Arial, sans-serif; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
-    h1 { margin: 8px 0 6px; font-size: clamp(34px, 6vw, 58px); font-weight: 500; letter-spacing: -.035em; }
-    .subtitle { margin: 0; max-width: 680px; color: var(--muted); font: 16px/1.6 Arial, sans-serif; }
-    section { margin-top: 28px; border-top: 1px solid var(--line); padding-top: 24px; }
-    h2 { margin: 0 0 14px; font: 600 13px/1.2 Arial, sans-serif; letter-spacing: .08em; text-transform: uppercase; }
-    .row { display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center; }
-    input[type=file] { width: 100%; font: 14px Arial, sans-serif; color: var(--muted); }
-    textarea { width: 100%; min-height: 128px; resize: vertical; border: 1px solid var(--line); background: var(--panel); color: var(--ink); padding: 16px; font: 17px/1.55 Georgia, serif; outline: none; }
-    textarea:focus { border-color: var(--accent); }
-    button { border: 1px solid var(--accent); background: var(--accent); color: var(--accent-ink); padding: 11px 16px; font: 600 13px Arial, sans-serif; cursor: pointer; }
-    button:disabled { opacity: .55; cursor: wait; }
-    .status { min-height: 24px; margin-top: 10px; color: var(--muted); font: 13px Arial, sans-serif; }
-    .answer-label { margin-bottom: 8px; color: var(--muted); font: 600 12px Arial, sans-serif; letter-spacing: .08em; text-transform: uppercase; }
-    #answer { white-space: pre-wrap; background: var(--panel); border-left: 3px solid var(--accent); padding: 18px 20px; min-height: 70px; font-size: 20px; }
-    .error { color: var(--danger); }
-    .ok { color: var(--success); }
-    @media (max-width: 640px) {
-      .page { width: min(100% - 24px, 920px); margin-top: 32px; }
-      .row { grid-template-columns: 1fr; }
-      button { width: 100%; }
+
+    .page {
+      width: min(
+        920px,
+        calc(100% - 40px)
+      );
+
+      margin:
+        56px auto 80px;
     }
+
+    header {
+      border-bottom:
+        1px solid var(--line);
+
+      padding-bottom: 24px;
+
+      margin-bottom: 32px;
+    }
+
+    .eyebrow {
+      font:
+        600 12px/1.2
+        Arial,
+        sans-serif;
+
+      letter-spacing: .12em;
+
+      text-transform: uppercase;
+
+      color: var(--muted);
+    }
+
+    h1 {
+      margin:
+        8px 0 6px;
+
+      font-size:
+        clamp(34px, 6vw, 58px);
+
+      font-weight: 500;
+
+      letter-spacing: -.035em;
+    }
+
+    .subtitle {
+      margin: 0;
+
+      max-width: 680px;
+
+      color: var(--muted);
+
+      font:
+        16px/1.6
+        Arial,
+        sans-serif;
+    }
+
+    section {
+      margin-top: 28px;
+
+      border-top:
+        1px solid var(--line);
+
+      padding-top: 24px;
+    }
+
+    h2 {
+      margin:
+        0 0 14px;
+
+      font:
+        600 13px/1.2
+        Arial,
+        sans-serif;
+
+      letter-spacing: .08em;
+
+      text-transform: uppercase;
+    }
+
+    .row {
+      display: grid;
+
+      grid-template-columns:
+        1fr auto;
+
+      gap: 12px;
+
+      align-items: center;
+    }
+
+    input[type=file] {
+      width: 100%;
+
+      font:
+        14px
+        Arial,
+        sans-serif;
+
+      color: var(--muted);
+    }
+
+    textarea {
+      width: 100%;
+
+      min-height: 128px;
+
+      resize: vertical;
+
+      border:
+        1px solid var(--line);
+
+      background: var(--panel);
+
+      color: var(--ink);
+
+      padding: 16px;
+
+      font:
+        17px/1.55
+        Georgia,
+        serif;
+
+      outline: none;
+    }
+
+    textarea:focus {
+      border-color:
+        var(--accent);
+    }
+
+    button {
+      border:
+        1px solid var(--accent);
+
+      background:
+        var(--accent);
+
+      color:
+        var(--accent-ink);
+
+      padding:
+        11px 16px;
+
+      font:
+        600 13px
+        Arial,
+        sans-serif;
+
+      cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: .55;
+
+      cursor: wait;
+    }
+
+    .status {
+      min-height: 24px;
+
+      margin-top: 10px;
+
+      color: var(--muted);
+
+      font:
+        13px
+        Arial,
+        sans-serif;
+    }
+
+    .answer-label {
+      margin-bottom: 8px;
+
+      color: var(--muted);
+
+      font:
+        600 12px
+        Arial,
+        sans-serif;
+
+      letter-spacing: .08em;
+
+      text-transform: uppercase;
+    }
+
+    #answer {
+      white-space: pre-wrap;
+
+      background:
+        var(--panel);
+
+      border-left:
+        3px solid var(--accent);
+
+      padding:
+        18px 20px;
+
+      min-height: 70px;
+
+      font-size: 20px;
+    }
+
+    .error {
+      color:
+        var(--danger);
+    }
+
+    .ok {
+      color:
+        var(--success);
+    }
+
+    /* Result metadata */
+
+    #resultMeta {
+      display: grid;
+
+      grid-template-columns:
+        repeat(3, 1fr);
+
+      border:
+        1px solid var(--line);
+
+      border-top: none;
+
+      background:
+        var(--panel);
+    }
+
+    .metric {
+      padding:
+        14px 16px;
+
+      border-right:
+        1px solid var(--line);
+    }
+
+    .metric:last-child {
+      border-right: none;
+    }
+
+    .metric-label {
+      display: block;
+
+      margin-bottom: 4px;
+
+      color: var(--muted);
+
+      font:
+        600 11px
+        Arial,
+        sans-serif;
+
+      letter-spacing: .07em;
+
+      text-transform: uppercase;
+    }
+
+    .metric-value {
+      font:
+        600 15px
+        Arial,
+        sans-serif;
+    }
+
+    .grounded-yes {
+      color:
+        var(--success);
+    }
+
+    .grounded-no {
+      color:
+        var(--danger);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    @media (max-width: 640px) {
+
+      .page {
+        width:
+          min(
+            100% - 24px,
+            920px
+          );
+
+        margin-top: 32px;
+      }
+
+      .row {
+        grid-template-columns:
+          1fr;
+      }
+
+      button {
+        width: 100%;
+      }
+
+      #resultMeta {
+        grid-template-columns:
+          1fr;
+      }
+
+      .metric {
+        border-right: none;
+
+        border-bottom:
+          1px solid var(--line);
+      }
+
+      .metric:last-child {
+        border-bottom: none;
+      }
+    }
+
   </style>
 </head>
+
+
 <body>
+
   <main class="page">
+
     <header>
-      <div class="eyebrow">Document-grounded question answering</div>
-      <h1>Self-Healing RAG</h1>
-      <p class="subtitle">Retrieve, generate, verify, and reformulate until the answer is supported by the indexed documents.</p>
+
+      <div class="eyebrow">
+        Document-grounded question answering
+      </div>
+
+      <h1>
+        Self-Healing RAG
+      </h1>
+
+      <p class="subtitle">
+        Retrieve, generate, verify, and reformulate
+        until the answer is supported by the
+        indexed documents.
+      </p>
+
     </header>
 
+
     <section>
-      <h2>Documents</h2>
+
+      <h2>
+        Documents
+      </h2>
+
       <div class="row">
-        <input id="files" type="file" accept="application/pdf" multiple>
-        <button id="ingest">Index documents</button>
+
+        <input
+          id="files"
+          type="file"
+          accept="application/pdf"
+          multiple
+        >
+
+        <button id="ingest">
+          Index documents
+        </button>
+
       </div>
-      <div id="ingestStatus" class="status"></div>
+
+      <div
+        id="ingestStatus"
+        class="status"
+      ></div>
+
     </section>
 
-    <section>
-      <h2>Question</h2>
-      <textarea id="question" placeholder="Ask a question about the indexed documents."></textarea>
-      <div style="margin-top:12px"><button id="ask">Ask</button></div>
-    </section>
 
     <section>
-      <div class="answer-label">Answer</div>
-      <div id="answer">Your answer will appear here.</div>
+
+      <h2>
+        Question
+      </h2>
+
+      <textarea
+        id="question"
+        placeholder="Ask a question about the indexed documents."
+      ></textarea>
+
+      <div style="margin-top:12px">
+
+        <button id="ask">
+          Ask
+        </button>
+
+      </div>
+
     </section>
+
+
+    <section>
+
+      <div class="answer-label">
+        Answer
+      </div>
+
+      <div id="answer">
+        Your answer will appear here.
+      </div>
+
+      <div
+        id="resultMeta"
+        class="hidden"
+      >
+
+        <div class="metric">
+
+          <span class="metric-label">
+            Grounded
+          </span>
+
+          <span
+            id="groundedValue"
+            class="metric-value"
+          >
+            —
+          </span>
+
+        </div>
+
+
+        <div class="metric">
+
+          <span class="metric-label">
+            Retries
+          </span>
+
+          <span
+            id="retriesValue"
+            class="metric-value"
+          >
+            0
+          </span>
+
+        </div>
+
+
+        <div class="metric">
+
+          <span class="metric-label">
+            Fallbacks
+          </span>
+
+          <span
+            id="fallbacksValue"
+            class="metric-value"
+          >
+            0
+          </span>
+
+        </div>
+
+      </div>
+
+    </section>
+
   </main>
 
+
 <script>
-const files = document.getElementById('files');
-const ingest = document.getElementById('ingest');
-const ingestStatus = document.getElementById('ingestStatus');
-const question = document.getElementById('question');
-const ask = document.getElementById('ask');
-const answer = document.getElementById('answer');
+
+const files =
+  document.getElementById("files");
+
+const ingest =
+  document.getElementById("ingest");
+
+const ingestStatus =
+  document.getElementById("ingestStatus");
+
+const question =
+  document.getElementById("question");
+
+const ask =
+  document.getElementById("ask");
+
+const answer =
+  document.getElementById("answer");
+
+const resultMeta =
+  document.getElementById("resultMeta");
+
+const groundedValue =
+  document.getElementById("groundedValue");
+
+const retriesValue =
+  document.getElementById("retriesValue");
+
+const fallbacksValue =
+  document.getElementById("fallbacksValue");
+
 
 async function readResponse(response) {
-  const data = await response.json().catch(() => ({}));
-  if (!response.ok) throw new Error(data.detail || 'Request failed');
+
+  const data =
+    await response
+      .json()
+      .catch(() => ({}));
+
+  if (!response.ok) {
+
+    throw new Error(
+      data.detail ||
+      "Request failed"
+    );
+
+  }
+
   return data;
 }
 
+
+function resetResultMetadata() {
+
+  resultMeta.classList.add(
+    "hidden"
+  );
+
+  groundedValue.textContent =
+    "—";
+
+  groundedValue.className =
+    "metric-value";
+
+  retriesValue.textContent =
+    "0";
+
+  fallbacksValue.textContent =
+    "0";
+}
+
+
+function showResultMetadata(data) {
+
+  resultMeta.classList.remove(
+    "hidden"
+  );
+
+
+  const grounded =
+    Boolean(data.grounded);
+
+
+  groundedValue.textContent =
+    grounded
+      ? "✓ Yes"
+      : "✗ No";
+
+
+  groundedValue.className =
+    grounded
+      ? "metric-value grounded-yes"
+      : "metric-value grounded-no";
+
+
+  retriesValue.textContent =
+    String(
+      data.retries ?? 0
+    );
+
+
+  fallbacksValue.textContent =
+    String(
+      data.fallbacks ?? 0
+    );
+}
+
+
 ingest.onclick = async () => {
-  if (!files.files.length) { ingestStatus.textContent = 'Choose at least one PDF.'; return; }
+
+  if (!files.files.length) {
+
+    ingestStatus.textContent =
+      "Choose at least one PDF.";
+
+    return;
+  }
+
+
   ingest.disabled = true;
-  ingestStatus.className = 'status';
-  ingestStatus.textContent = 'Indexing…';
-  const form = new FormData();
-  [...files.files].forEach(file => form.append('files', file));
+
+  ingestStatus.className =
+    "status";
+
+  ingestStatus.textContent =
+    "Indexing…";
+
+
+  const form =
+    new FormData();
+
+
+  [
+    ...files.files
+  ].forEach(file => {
+
+    form.append(
+      "files",
+      file
+    );
+
+  });
+
+
   try {
-    const data = await readResponse(await fetch('/ingest', { method: 'POST', body: form }));
-    ingestStatus.className = 'status ok';
-    ingestStatus.textContent = `${data.files.length} file(s) indexed · ${data.chunks_created} chunks`;
-  } catch (error) {
-    ingestStatus.className = 'status error';
-    ingestStatus.textContent = error.message;
-  } finally { ingest.disabled = false; }
+
+    const data =
+      await readResponse(
+        await fetch(
+          "/ingest",
+          {
+            method: "POST",
+            body: form
+          }
+        )
+      );
+
+
+    ingestStatus.className =
+      "status ok";
+
+
+    ingestStatus.textContent =
+      `${data.files.length} file(s) indexed · `
+      + `${data.chunks_created} chunks`;
+
+  }
+
+  catch (error) {
+
+    ingestStatus.className =
+      "status error";
+
+    ingestStatus.textContent =
+      error.message;
+
+  }
+
+  finally {
+
+    ingest.disabled = false;
+
+  }
+
 };
+
 
 ask.onclick = async () => {
-  const q = question.value.trim();
-  if (!q) { answer.textContent = 'Enter a question.'; return; }
+
+  const q =
+    question.value.trim();
+
+
+  if (!q) {
+
+    answer.textContent =
+      "Enter a question.";
+
+    resetResultMetadata();
+
+    return;
+  }
+
+
   ask.disabled = true;
-  answer.textContent = 'Working…';
+
+  answer.textContent =
+    "Working…";
+
+  resetResultMetadata();
+
+
   try {
-    const data = await readResponse(await fetch('/ask', {
-      method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({question: q})
-    }));
-    answer.textContent = data.answer;
-  } catch (error) {
-    answer.textContent = error.message;
-  } finally { ask.disabled = false; }
+
+    const data =
+      await readResponse(
+        await fetch(
+          "/ask",
+          {
+            method: "POST",
+
+            headers: {
+              "Content-Type":
+                "application/json"
+            },
+
+            body: JSON.stringify({
+              question: q
+            })
+          }
+        )
+      );
+
+
+    answer.textContent =
+      data.answer;
+
+
+    showResultMetadata(
+      data
+    );
+
+  }
+
+  catch (error) {
+
+    answer.textContent =
+      error.message;
+
+    resetResultMetadata();
+
+  }
+
+  finally {
+
+    ask.disabled = false;
+
+  }
+
 };
 
-question.addEventListener('keydown', e => {
-  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') ask.click();
-});
+
+question.addEventListener(
+  "keydown",
+  event => {
+
+    if (
+      (event.ctrlKey ||
+       event.metaKey) &&
+      event.key === "Enter"
+    ) {
+
+      ask.click();
+
+    }
+
+  }
+);
+
 </script>
+
 </body>
+
 </html>
